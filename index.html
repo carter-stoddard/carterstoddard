@@ -127,7 +127,8 @@
     <div class="menu-overlay__content">
       <!-- Left column — navigation links -->
       <nav class="menu-overlay__nav" aria-label="Site sections">
-        <a href="#about" class="menu-overlay__link" data-menu-link>About</a>
+        <a href="#about" class="menu-overlay__link" data-menu-link>About Me</a>
+        <a href="#beyond-the-bio" class="menu-overlay__link" data-menu-link>My Story</a>
         <a href="#stats" class="menu-overlay__link" data-menu-link>Numbers</a>
         <a href="#services" class="menu-overlay__link" data-menu-link>Services</a>
         <a href="#clients" class="menu-overlay__link" data-menu-link>Partnerships</a>
@@ -355,6 +356,16 @@
         </div>
       </div>
 
+      <!-- CARD 3 — portrait — The Friendships I've Made -->
+      <div class="about__card about__card--portrait about__card--mid about__card--friendships">
+        <div class="about__card-caption about__card-caption--above">
+          <span class="about__caption-label about__wipe"><span class="about__wipe-inner">THE FRIENDSHIPS I'VE MADE</span><span class="about__wipe-bar"></span></span>
+        </div>
+        <div class="about__card-img">
+          <img src="assets/images/about/in-the-zone.webp" alt="Carter Stoddard outside, in the moment" loading="lazy">
+        </div>
+      </div>
+
       <!-- CARD 4 — portrait, bottom — The Craft -->
       <div class="about__card about__card--portrait about__card--end">
         <div class="about__card-caption about__card-caption--above">
@@ -429,6 +440,53 @@
   <div class="section-spacer" aria-hidden="true"></div>
 
   <!-- ============================================================
+       SECTION 04.5 — BEYOND THE BIO (Video)
+       Fullscreen-capable click-to-play video.
+  ============================================================ -->
+  <section id="beyond-the-bio" aria-label="Beyond the bio video">
+    <div class="bio-video__header container">
+      <span class="bio-video__label">MY STORY</span>
+      <h2 class="bio-video__heading">
+        <span class="bio-video__heading-main">BEYOND</span>
+        <span class="bio-video__heading-accent">the Bio.</span>
+      </h2>
+      <p class="bio-video__subtext">My life in motion.</p>
+    </div>
+
+    <div class="bio-video__wrap container">
+      <div class="bio-video__frame">
+        <span class="bio-video__corner bio-video__corner--tl" aria-hidden="true"></span>
+        <span class="bio-video__corner bio-video__corner--tr" aria-hidden="true"></span>
+        <span class="bio-video__corner bio-video__corner--bl" aria-hidden="true"></span>
+        <span class="bio-video__corner bio-video__corner--br" aria-hidden="true"></span>
+        <video
+          class="bio-video__player"
+          id="bio-video-player"
+          controls
+          playsinline
+          preload="metadata"
+          poster="assets/videos/beyond-the-bio-poster.jpg"
+        >
+          <source src="assets/videos/beyond-the-bio.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <button type="button" class="bio-video__play" id="bio-video-play" aria-label="Play video">
+          <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="40" cy="40" r="38" fill="rgba(0,0,0,0.55)" stroke="#CCFF00" stroke-width="2"/>
+            <polygon points="32,24 32,56 58,40" fill="#CCFF00"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="bio-video__cta container">
+      <a href="#contact" class="glass-btn cta-btn--match">WANT A VIDEO LIKE THIS?</a>
+    </div>
+  </section>
+
+  <div class="section-spacer" aria-hidden="true"></div>
+
+  <!-- ============================================================
        SECTION 05 — STATS
        Mission control readout — four live system stats.
   ============================================================ -->
@@ -469,6 +527,10 @@
       </div>
 
     </div>
+
+    <div class="stats__cta container">
+      <a href="#contact" class="glass-btn cta-btn--match">READY TO ADD TO THESE NUMBERS?</a>
+    </div>
   </section>
 
   <div class="section-spacer" aria-hidden="true"></div>
@@ -491,84 +553,90 @@
 
     <div class="services__container">
 
-      <!-- Desktop: two-column mission briefing -->
-      <div class="services__briefing">
+      <!-- Bento grid -->
+      <div class="services__bento" aria-label="Service categories">
 
-        <!-- Left column — category list -->
-        <nav class="services__nav" aria-label="Service categories">
+        <button type="button" class="services__tile services__tile--tall" data-service-index="0">
+          <span class="services__tile-num">01</span>
+          <span class="services__tile-name">Web Design, Development &amp; <span class="services__tile-accent">Apps</span></span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row is-active" data-service="0" type="button">
-            <span class="services__num">01</span>
-            <span class="services__name">Web Design, Development &amp; Apps</span>
-          </button>
+        <button type="button" class="services__tile" data-service-index="1">
+          <span class="services__tile-num">02</span>
+          <span class="services__tile-name">Branding &amp; <span class="services__tile-accent">Identity</span></span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row" data-service="1" type="button">
-            <span class="services__num">02</span>
-            <span class="services__name">Branding &amp; Identity</span>
-          </button>
+        <button type="button" class="services__tile" data-service-index="2">
+          <span class="services__tile-num">03</span>
+          <span class="services__tile-name">AI &amp; <span class="services__tile-accent">Automation</span></span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row" data-service="2" type="button">
-            <span class="services__num">03</span>
-            <span class="services__name">AI &amp; Automation</span>
-          </button>
+        <button type="button" class="services__tile" data-service-index="3">
+          <span class="services__tile-num">04</span>
+          <span class="services__tile-name">Social Media <span class="services__tile-accent">Content</span> &amp; Management</span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row" data-service="3" type="button">
-            <span class="services__num">04</span>
-            <span class="services__name">Social Media Content &amp; Management</span>
-          </button>
+        <button type="button" class="services__tile" data-service-index="4">
+          <span class="services__tile-num">05</span>
+          <span class="services__tile-name">Video, <span class="services__tile-accent">Motion</span> &amp; Photography</span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row" data-service="4" type="button">
-            <span class="services__num">05</span>
-            <span class="services__name">Video, Motion &amp; Photography</span>
-          </button>
+        <button type="button" class="services__tile services__tile--accent" data-service-index="5">
+          <span class="services__tile-num">06</span>
+          <span class="services__tile-name">AI Search &amp; <span class="services__tile-accent">SEO</span></span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row" data-service="5" type="button">
-            <span class="services__num">06</span>
-            <span class="services__name">AI Search &amp; SEO</span>
-          </button>
+        <button type="button" class="services__tile" data-service-index="6">
+          <span class="services__tile-num">07</span>
+          <span class="services__tile-name">Print &amp; Digital <span class="services__tile-accent">Graphic Design</span></span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row" data-service="6" type="button">
-            <span class="services__num">07</span>
-            <span class="services__name">Print &amp; Digital Graphic Design</span>
-          </button>
+        <button type="button" class="services__tile" data-service-index="7">
+          <span class="services__tile-num">08</span>
+          <span class="services__tile-name">Strategy &amp; <span class="services__tile-accent">Creative Direction</span></span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row" data-service="7" type="button">
-            <span class="services__num">08</span>
-            <span class="services__name">Strategy &amp; Creative Direction</span>
-          </button>
+        <button type="button" class="services__tile" data-service-index="8">
+          <span class="services__tile-num">09</span>
+          <span class="services__tile-name"><span class="services__tile-accent">Copywriting</span> &amp; Email Marketing</span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row" data-service="8" type="button">
-            <span class="services__num">09</span>
-            <span class="services__name">Email &amp; SMS Marketing</span>
-          </button>
+        <button type="button" class="services__tile" data-service-index="9">
+          <span class="services__tile-num">10</span>
+          <span class="services__tile-name"><span class="services__tile-accent">Paid</span> Advertising</span>
+          <span class="services__tile-arrow" aria-hidden="true">→</span>
+        </button>
 
-          <button class="services__row" data-service="9" type="button">
-            <span class="services__num">10</span>
-            <span class="services__name">Paid Advertising</span>
-          </button>
-
-        </nav>
-
-        <!-- Right column — dynamic content panel -->
-        <div class="services__panel">
-          <div class="services__panel-inner">
-            <!-- Populated by JS -->
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Mobile: accordion (rendered by JS from same data) -->
-      <div class="services__accordion" aria-label="Service categories">
-        <!-- Built dynamically by JS -->
       </div>
 
       <!-- CTA -->
       <div class="services__cta">
-        <p class="services__cta-text">DON'T SEE WHAT YOU NEED?</p>
-        <a href="#contact" class="glass-btn services__cta-btn">LET'S TALK</a>
+        <a href="#contact" class="glass-btn services__cta-btn cta-btn--match">DON'T SEE WHAT YOU NEED?</a>
       </div>
 
+    </div>
+
+    <!-- Service detail modal -->
+    <div id="services-modal" class="services-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="services-modal-name">
+      <div class="services-modal__panel">
+        <button type="button" class="services-modal__close" id="services-modal-close" aria-label="Close">×</button>
+        <span class="services-modal__num" id="services-modal-num"></span>
+        <h3 class="services-modal__name" id="services-modal-name"></h3>
+        <p class="services-modal__desc" id="services-modal-desc"></p>
+        <hr class="services-modal__divider">
+        <span class="services-modal__pills-label">WHAT'S INCLUDED</span>
+        <div class="services-modal__pills" id="services-modal-pills"></div>
+        <a href="#contact" class="services-modal__cta" id="services-modal-cta">LET'S TALK →</a>
+      </div>
     </div>
   </section>
 
@@ -639,9 +707,9 @@
 
     </div>
 
-    <!-- ── Portfolio CTA ── -->
+    <!-- ── Partnerships CTA ── -->
     <div class="clients__cta-wrap container">
-      <!-- <a href="portfolio.html" class="glass-btn services__cta-btn">PORTFOLIO</a> -->
+      <a href="#contact" class="glass-btn cta-btn--match">WANT TO BE NEXT?</a>
     </div>
 
   </section>
@@ -1029,7 +1097,8 @@
       <nav class="footer__col footer__col--left" aria-label="Footer sections">
         <span class="footer__col-label">SECTIONS</span>
         <div class="footer__col-links">
-          <a href="#about" class="footer__col-link">ABOUT</a>
+          <a href="#about" class="footer__col-link">ABOUT ME</a>
+          <a href="#beyond-the-bio" class="footer__col-link">MY STORY</a>
           <a href="#stats" class="footer__col-link">NUMBERS</a>
           <a href="#services" class="footer__col-link">SERVICES</a>
           <a href="#clients" class="footer__col-link">PARTNERSHIPS</a>
@@ -1100,6 +1169,18 @@
   <script src="js/hero.js?v=20260412"></script>
   <script src="js/animations.js?v=20260412"></script>
   <script src="js/contact.js?v=20260412"></script>
+  <script src="js/services-modal.js?v=20260430"></script>
+  <script>
+    (function() {
+      var video = document.getElementById('bio-video-player');
+      var btn   = document.getElementById('bio-video-play');
+      if (!video || !btn) return;
+      btn.addEventListener('click', function() { video.play(); });
+      video.addEventListener('play',  function() { btn.classList.add('is-hidden'); });
+      video.addEventListener('pause', function() { if (video.currentTime === 0) btn.classList.remove('is-hidden'); });
+      video.addEventListener('ended', function() { btn.classList.remove('is-hidden'); });
+    })();
+  </script>
   <script src="js/main.js?v=20260412"></script>
   <script type="module" src="js/quote-models.js"></script>
   <script type="module" src="js/marquee-moon.js"></script>
