@@ -34,17 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
   Loader.init(() => {
     document.body.classList.add('site-ready');
 
-    // Lenis smooth scroll — active on both desktop and mobile for consistent
-    // smoothness across the site. On mobile we use syncTouch so native iOS
-    // momentum is preserved while Lenis stays in sync with ScrollTrigger.
+    // Lenis smooth scroll — active site-wide. Mobile gets full smoothTouch
+    // so the same easing/momentum applies to touch as well as wheel.
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
     if (typeof Lenis !== 'undefined') {
       window.lenis = new Lenis({
-        duration: isTouchDevice ? 1.0 : 1.6,
+        duration: isTouchDevice ? 1.2 : 1.6,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        smoothTouch: false,    // don't fully take over touch (would break momentum)
-        syncTouch: isTouchDevice, // sync ScrollTrigger with native touch scroll
+        smoothTouch: true,
+        syncTouch: false,
+        touchMultiplier: 2,
       });
       window.lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => { window.lenis.raf(time * 1000); });
