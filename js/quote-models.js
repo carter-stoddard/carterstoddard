@@ -10,8 +10,9 @@ function createScene(canvas) {
   const w = canvas.clientWidth  || canvas.offsetWidth  || 400;
   const h = canvas.clientHeight || canvas.offsetHeight || 400;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isTouch });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isTouch ? 1.5 : 2));
   renderer.setSize(w, h, false);
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -91,8 +92,19 @@ function init() {
   loadModel('assets/models/asteroid.glb', trScene.scene, { x: -0.2,  z:  0.3,  s: 0.7  }, m => { trModel = m; });
   loadModel('assets/models/asteroid.glb', brScene.scene, { x: -0.25, z:  0.15, s: 1.3  }, m => { brModel = m; });
 
+  // Pause render loop when quote section off-screen (mobile perf)
+  let isVisible = true;
+  const quoteSection = document.getElementById('quote');
+  if (quoteSection && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { isVisible = entry.isIntersecting; });
+    }, { threshold: 0 });
+    io.observe(quoteSection);
+  }
+
   function animate() {
     requestAnimationFrame(animate);
+    if (!isVisible) return;
     if (tlModel) { tlModel.rotation.y += 0.003;  tlModel.rotation.x += 0.0008; }
     if (trModel) { trModel.rotation.y += 0.002;  trModel.rotation.z -= 0.0007; }
     if (brModel) { brModel.rotation.y -= 0.0025; brModel.rotation.z += 0.0006; }

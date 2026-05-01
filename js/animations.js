@@ -353,7 +353,7 @@ const Animations = (() => {
       ScrollTrigger.create({
         trigger: card,
         containerAnimation: scrollTween,
-        start: 'left 120%',
+        start: 'left 85%',
         once: true,
         onEnter: function() {
           gsap.to(card, {
@@ -372,7 +372,7 @@ const Animations = (() => {
       ScrollTrigger.create({
         trigger: el,
         containerAnimation: scrollTween,
-        start: 'left 85%',
+        start: 'left 65%',
         once: true,
         onEnter: function() { fireWipe(el, 0); },
       });
@@ -384,7 +384,7 @@ const Animations = (() => {
       ScrollTrigger.create({
         trigger: group,
         containerAnimation: scrollTween,
-        start: 'left 85%',
+        start: 'left 65%',
         once: true,
         onEnter: function() {
           lines.forEach(function(line, i) {
@@ -450,13 +450,6 @@ const Animations = (() => {
     // Cells fade up — staggered, starting shortly after header
     tl.to(cells,
       { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.1 }, 0.25
-    );
-
-    // 2b. Glow pulse — panel power-on effect, all at once
-    tl.fromTo(cells,
-      { boxShadow: 'inset 0 0 20px rgba(204, 255, 0, 0.35)' },
-      { boxShadow: 'inset 0 0 0px rgba(204, 255, 0, 0)', duration: 0.6, ease: 'power2.out' },
-      '-=0.3'
     );
 
     // Add a label so all number count-ups start at the same time

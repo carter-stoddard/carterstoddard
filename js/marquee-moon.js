@@ -12,8 +12,9 @@ function init() {
   const w = canvas.clientWidth  || 300;
   const h = canvas.clientHeight || 300;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isTouch });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isTouch ? 1.5 : 2));
   renderer.setSize(w, h, false);
   renderer.setClearColor(0x000000, 0);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -75,8 +76,18 @@ function init() {
     (err) => console.warn('marquee-moon: failed to load', err)
   );
 
+  // Pause render loop when canvas off-screen (mobile perf)
+  let isVisible = true;
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { isVisible = entry.isIntersecting; });
+    }, { threshold: 0 });
+    io.observe(canvas);
+  }
+
   function animate() {
     requestAnimationFrame(animate);
+    if (!isVisible) return;
     if (moonModel) {
       moonModel.rotation.y += 0.002;
     }

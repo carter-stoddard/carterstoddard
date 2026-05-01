@@ -34,13 +34,13 @@ document.addEventListener('DOMContentLoaded', () => {
   Loader.init(() => {
     document.body.classList.add('site-ready');
 
-    // Lenis smooth scroll — full proxy on desktop, native scroll on mobile
+    // Lenis smooth scroll — desktop only. Mobile uses native scroll for performance.
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-    if (typeof Lenis !== 'undefined') {
+    if (!isTouchDevice && typeof Lenis !== 'undefined') {
       window.lenis = new Lenis({
         duration: 1.6,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: !isTouchDevice,
+        smoothWheel: true,
         smoothTouch: false,
         syncTouch: false,
       });
@@ -48,20 +48,18 @@ document.addEventListener('DOMContentLoaded', () => {
       gsap.ticker.add((time) => { window.lenis.raf(time * 1000); });
       gsap.ticker.lagSmoothing(0);
 
-      if (!isTouchDevice) {
-        // Desktop only — proxy lets ScrollTrigger read Lenis scroll position
-        ScrollTrigger.scrollerProxy(document.documentElement, {
-          scrollTop(value) {
-            if (arguments.length) { window.lenis.scrollTo(value, { immediate: true }); }
-            return window.lenis.scroll;
-          },
-          getBoundingClientRect() {
-            return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
-          },
-          pinType: document.documentElement.style.transform ? 'transform' : 'fixed',
-        });
-        ScrollTrigger.defaults({ scroller: document.documentElement });
-      }
+      // Desktop only — proxy lets ScrollTrigger read Lenis scroll position
+      ScrollTrigger.scrollerProxy(document.documentElement, {
+        scrollTop(value) {
+          if (arguments.length) { window.lenis.scrollTo(value, { immediate: true }); }
+          return window.lenis.scroll;
+        },
+        getBoundingClientRect() {
+          return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+        },
+        pinType: document.documentElement.style.transform ? 'transform' : 'fixed',
+      });
+      ScrollTrigger.defaults({ scroller: document.documentElement });
 
       ScrollTrigger.refresh();
     }

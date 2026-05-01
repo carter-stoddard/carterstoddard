@@ -178,6 +178,14 @@
   to { --gradient-angle: 360deg; }
 }
 
+/* Mobile — kill the always-running gradient animation for performance */
+@media (max-width: 768px), (hover: none) and (pointer: coarse) {
+  .glass-btn::before {
+    animation: none;
+    background: linear-gradient(135deg, #CCFF00, rgba(255, 255, 255, 0.5), #CCFF00);
+  }
+}
+
 /* Matched-length CTAs — services & partnerships pair */
 .cta-btn--match {
   min-width: 320px;
@@ -1660,6 +1668,14 @@ button {
   /* border-left inherited from about__card--copy */
 }
 
+/* Targeted nudges to balance the journey collage spacing */
+.about__card--wide.about__card--mid     { transform: translateX(-15px); }
+.about__card--friendships               { transform: translateX(25px); }
+.about__card--portrait.about__card--end { transform: translateX(75px); }
+.about__card--sm.about__card--top       { transform: translateX(-15px); }
+.about__card--sm.about__card--offset    { transform: translateX(40px); }
+.about__card--copy.about__card--closing { transform: translateX(40px); }
+
 
 /* ============================================================
    SECTION 04.5 — BEYOND THE BIO (Video)
@@ -1844,7 +1860,7 @@ button {
 
 @media (max-width: 768px) {
   #beyond-the-bio {
-    padding: 4rem 0;
+    padding: 2rem 0;
   }
   .bio-video__play-icon {
     width: 60px;
@@ -2535,18 +2551,38 @@ button {
   color: rgba(0, 0, 0, 0.6);
 }
 
-/* Mobile — stack into single column */
+/* Mobile — equal 2-up grid, no overflow, same sizing for all tiles */
 @media (max-width: 768px) {
+  #services {
+    overflow-x: hidden;
+  }
   .services__bento {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
   }
   .services__tile:nth-child(n) {
     grid-column: span 1;
     grid-row: auto;
+    min-height: 140px;
+    min-width: 0;
+    padding: 16px 12px;
   }
   .services__tile--tall {
-    grid-column: span 2;
+    grid-column: span 1;
     min-height: 140px;
+  }
+  .services__tile--tall .services__tile-name,
+  .services__tile-name {
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  .services__tile-num {
+    top: 10px;
+    left: 12px;
   }
 }
 
@@ -3303,19 +3339,19 @@ button {
 
   /* Reduce section spacing on mobile */
   #about, #quote, #services, #clients, #testimonials {
-    padding: 4rem 0;
+    padding: 2rem 0;
   }
 
   #contact {
-    padding: 4rem 0 1rem;
+    padding: 2rem 0 0.5rem;
   }
 
   #stats {
-    padding: 4rem 0;
+    padding: 2rem 0;
   }
 
   .section-spacer {
-    height: 1rem;
+    height: 0.5rem;
   }
 
   /* Portrait — anchored to bottom of hero on mobile so no crop gap shows */
