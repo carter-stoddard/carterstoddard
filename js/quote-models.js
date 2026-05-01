@@ -80,6 +80,15 @@ function init() {
   const canvasBR = document.getElementById('quote-model-br');
   if (!canvasTL || !canvasTR || !canvasBR) return;
 
+  // Skip 3D scenes entirely on mobile — saves memory + GPU + improves performance
+  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (isTouch) {
+    canvasTL.style.display = 'none';
+    canvasTR.style.display = 'none';
+    canvasBR.style.display = 'none';
+    return;
+  }
+
   const tlScene = createScene(canvasTL);
   const trScene = createScene(canvasTR);
   const brScene = createScene(canvasBR);

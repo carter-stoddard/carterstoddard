@@ -53,7 +53,7 @@ const Animations = (() => {
         .to('.hero__layer--astronaut', { opacity: 1, duration: 0.02 }, 0);
     }
 
-    // Scroll prompt — fade out immediately on scroll.
+    // Scroll prompt — fade out on scroll.
     // The CSS entrance animation uses 'forwards' fill which overrides GSAP,
     // so listen for it to end, then hand opacity control to GSAP.
     const scrollPrompt = document.querySelector('.hero__scroll-prompt');
@@ -62,7 +62,12 @@ const Animations = (() => {
         scrollPrompt.style.animation = 'none';
         scrollPrompt.style.opacity = '1';
       }, { once: true });
-      tl.to(scrollPrompt, { opacity: 0, duration: 0.15 }, 0);
+      // Mobile: gradual fade across more of the scroll (slower disappear)
+      // Desktop: quick fade as soon as user scrolls
+      tl.to(scrollPrompt, {
+        opacity: 0,
+        duration: isMobilePortal ? 0.5 : 0.15,
+      }, 0);
     }
 
     // Nav logo — fade out on scroll (mobile only)
@@ -278,24 +283,28 @@ const Animations = (() => {
       if (bar) gsap.set(bar, { scaleX: 0, transformOrigin: 'left center' });
     });
 
+    // Mobile gets a longer pin duration so cards have more time on screen.
+    // Use viewport width too so dev tools mobile emulation works.
+    var isMobileViewport = isMobileAbout || window.innerWidth <= 768;
+    var pinMultiplier = isMobileViewport ? 1.8 : 1.25;
     const scrollTween = gsap.to(track, {
       x: () => -(track.scrollWidth - window.innerWidth),
       ease: 'none',
       force3D: true,
       scrollTrigger: {
         trigger: section,
-        start: 'top top',
-        end: () => `+=${track.scrollWidth - window.innerWidth}`,
+        // Delay pin — pin fires after section has scrolled 200px past viewport top
+        start: 'top top-=200',
+        // Extend pin past horizontal scroll end so last card has breathing room
+        end: () => `+=${(track.scrollWidth - window.innerWidth) * pinMultiplier}`,
         pin: true,
-        anticipatePin: 1,
         scrub: 3,
         invalidateOnRefresh: true,
       },
     });
 
-    // Card images — staggered reveal as each card enters during horizontal scroll
+    // Card reveal — every card uses the SAME fade-up animation, no cumulative delay
     var cards = track.querySelectorAll('.about__card');
-    var revealIndex = 0;
     cards.forEach(function(card) {
       gsap.set(card, { opacity: 0, y: 30 });
       ScrollTrigger.create({
@@ -305,12 +314,11 @@ const Animations = (() => {
         once: true,
         onEnter: function() {
           gsap.to(card, {
-            opacity: 1, y: 0,
+            opacity: 1,
+            y: 0,
             duration: 0.7,
-            delay: revealIndex * 0.1,
             ease: 'power2.out',
           });
-          revealIndex++;
         },
       });
     });
@@ -359,10 +367,11 @@ const Animations = (() => {
     var frame = section.querySelector('.bio-video__frame');
     var ctaWrap = section.querySelector('.bio-video__cta');
 
+    // Match all other section reveals: subtle y:14 on header, content gets same treatment
     var headerEls = [label, headMain, headAccent, subtext].filter(Boolean);
     gsap.set(headerEls, { opacity: 0, y: 14 });
-    if (frame) gsap.set(frame, { opacity: 0, y: 30 });
-    if (ctaWrap) gsap.set(ctaWrap, { opacity: 0, y: 20 });
+    if (frame) gsap.set(frame, { opacity: 0, y: 14 });
+    if (ctaWrap) gsap.set(ctaWrap, { opacity: 0, y: 14 });
 
     ScrollTrigger.create({
       trigger: section,
@@ -374,8 +383,8 @@ const Animations = (() => {
         if (headMain)   tl.to(headMain,   { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.1);
         if (headAccent) tl.to(headAccent, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.15);
         if (subtext)    tl.to(subtext,    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.2);
-        if (frame)      tl.to(frame,      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.25);
-        if (ctaWrap)    tl.to(ctaWrap,    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.5);
+        if (frame)      tl.to(frame,      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.25);
+        if (ctaWrap)    tl.to(ctaWrap,    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.4);
       },
     });
   }

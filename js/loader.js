@@ -17,6 +17,17 @@ const Loader = (() => {
     const el = document.getElementById('loader');
     if (!el) { if (callback) callback(); return; }
 
+    // Skip loader on internal navigations — only show on first visit / hard refresh.
+    // sessionStorage persists for the tab session but resets on browser/tab close.
+    var alreadyShown = false;
+    try { alreadyShown = sessionStorage.getItem('loader_shown') === '1'; } catch (e) {}
+    if (alreadyShown) {
+      el.style.display = 'none';
+      if (callback) callback();
+      return;
+    }
+    try { sessionStorage.setItem('loader_shown', '1'); } catch (e) {}
+
     const nameEl = el.querySelector('.loader__name');
     const progressBar = document.getElementById('loader-progress');
     const tagline = el.querySelector('.loader__tagline');

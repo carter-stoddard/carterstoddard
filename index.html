@@ -55,7 +55,7 @@
   <link rel="preload" as="image" type="image/webp" href="assets/images/portrait-astronaut-desktop.webp" />
 
   <!-- Styles -->
-  <link rel="stylesheet" href="css/styles.css?v=20260430-2" />
+  <link rel="stylesheet" href="css/styles.css?v=20260430-6" />
 
   <!-- Structured data — tells Google to show "Carter Stoddard" as the site name -->
   <script type="application/ld+json">
@@ -1152,7 +1152,20 @@
           <span class="portfolio-modal__heading-main">PORTFOLIO</span>
           <span class="portfolio-modal__heading-accent">Locked</span>
         </h2>
-        <p class="portfolio-modal__body">My portfolio is currently invite-only.<br>Request access below and I'll send you the password within 24 hours.</p>
+        <p class="portfolio-modal__body">Already have an access code? Enter it below.<br>If not, request access and I'll send you a code within 24 hours.</p>
+
+        <form class="portfolio-modal__code-form" id="portfolio-code-form" novalidate>
+          <input type="text" id="portfolio-code-input" class="portfolio-modal__code-input" placeholder="Enter code" autocomplete="off" spellcheck="false" />
+          <button type="submit" class="portfolio-modal__code-submit" aria-label="Submit code">→</button>
+        </form>
+        <p class="portfolio-modal__error" id="portfolio-code-error" aria-live="polite"></p>
+
+        <div class="portfolio-modal__divider-row" aria-hidden="true">
+          <span class="portfolio-modal__divider-line"></span>
+          <span class="portfolio-modal__divider-text">OR</span>
+          <span class="portfolio-modal__divider-line"></span>
+        </div>
+
         <button type="button" class="glass-btn portfolio-modal__cta" id="portfolio-request-btn">REQUEST ACCESS →</button>
       </div>
 
@@ -1227,14 +1240,14 @@
 
 
   <!-- Site modules -->
-  <script src="js/starfield.js?v=20260430-2"></script>
+  <script src="js/starfield.js?v=20260430-6"></script>
 
-  <script src="js/loader.js?v=20260430-2"></script>
-  <script src="js/hero.js?v=20260430-2"></script>
-  <script src="js/animations.js?v=20260430-2"></script>
-  <script src="js/contact.js?v=20260430-2"></script>
-  <script src="js/services-modal.js?v=20260430-2"></script>
-  <script src="js/portfolio-modal.js?v=20260430-2"></script>
+  <script src="js/loader.js?v=20260430-6"></script>
+  <script src="js/hero.js?v=20260430-6"></script>
+  <script src="js/animations.js?v=20260430-6"></script>
+  <script src="js/contact.js?v=20260430-6"></script>
+  <script src="js/services-modal.js?v=20260430-6"></script>
+  <script src="js/portfolio-modal.js?v=20260430-6"></script>
   <script>
     (function() {
       var video = document.getElementById('bio-video-player');
@@ -1246,10 +1259,10 @@
       video.addEventListener('ended', function() { btn.classList.remove('is-hidden'); });
     })();
   </script>
-  <script src="js/main.js?v=20260430-2"></script>
-  <script type="module" src="js/quote-models.js"></script>
-  <script type="module" src="js/marquee-moon.js"></script>
-  <script type="module" src="js/about-shuttle.js"></script>
+  <script src="js/main.js?v=20260430-6"></script>
+  <script type="module" src="js/quote-models.js?v=20260430-6"></script>
+  <script type="module" src="js/marquee-moon.js?v=20260430-6"></script>
+  <script type="module" src="js/about-shuttle.js?v=20260430-6"></script>
 
   <!-- ── Testimonial Popup Modal ── -->
   <div id="test-modal" class="test-modal" role="dialog" aria-modal="true" aria-label="Testimonial" aria-hidden="true">

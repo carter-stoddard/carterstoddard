@@ -11,6 +11,9 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#000000" />
   <meta name="robots" content="noindex" />
 
   <!-- Favicons -->
@@ -20,353 +23,229 @@
   <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicons/favicon-192x192.png" />
 
   <!-- Primary Meta -->
-  <title>Portfolio — Carter Stoddard</title>
-  <meta name="description" content="Portfolio for Carter Stoddard LLC. Enter your access code to view classified missions." />
-  <link rel="canonical" href="https://carterstoddard.com/portfolio" />
+  <title>Mission Control — Carter Stoddard</title>
+  <meta name="description" content="A record of work. Every client is a mission." />
 
   <!-- Open Graph -->
   <meta property="og:type"        content="website" />
   <meta property="og:site_name"   content="Carter Stoddard" />
-  <meta property="og:url"         content="https://carterstoddard.com/portfolio" />
-  <meta property="og:title"       content="Portfolio — Carter Stoddard" />
-  <meta property="og:description" content="Portfolio for Carter Stoddard LLC. Enter your access code to view classified missions." />
+  <meta property="og:title"       content="Mission Control — Carter Stoddard" />
+  <meta property="og:description" content="A record of work. Every client is a mission." />
   <meta property="og:image"       content="https://carterstoddard.com/assets/images/og-share.png" />
-  <meta property="og:image:width"  content="1200" />
-  <meta property="og:image:height" content="630" />
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary_large_image" />
-  <meta name="twitter:title"       content="Portfolio — Carter Stoddard" />
-  <meta name="twitter:description" content="Portfolio for Carter Stoddard LLC. Enter your access code to view classified missions." />
-  <meta name="twitter:image"       content="https://carterstoddard.com/assets/images/og-share.png" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital,wght@1,700;1,900&family=Permanent+Marker&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playfair+Display:ital,wght@1,700;1,900&family=Permanent+Marker&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="css/styles.css" />
+  <!-- Site styles (nav, footer, menu overlay, base) -->
+  <link rel="stylesheet" href="css/styles.css?v=20260430-6" />
 
   <!-- Portfolio-specific styles -->
   <style>
-    /* ── PASSWORD GATE ── */
-    .gate {
-      position: fixed;
-      inset: 0;
-      z-index: 900;
-      background: transparent;
+    .pf-page {
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Hero */
+    .pf-hero {
+      position: relative;
+      z-index: var(--z-content, 10);
+      padding: 160px 24px 80px;
+      text-align: center;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      min-height: 60vh;
+    }
+    .pf-hero__label {
+      display: inline-block;
+      font-family: var(--font-label);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 18px;
+      opacity: 0;
+    }
+    .pf-hero__heading {
+      font-family: var(--font-heading);
+      font-size: clamp(3rem, 11vw, 9rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--color-text);
+      margin: 0 0 24px;
+      text-transform: uppercase;
+      font-weight: 900;
+      opacity: 0;
+    }
+    .pf-hero__subline {
+      font-family: 'Space Grotesk', var(--font-body);
+      font-size: clamp(15px, 1.5vw, 18px);
+      color: rgba(255, 255, 255, 0.5);
+      max-width: 520px;
+      margin: 0 auto;
+      opacity: 0;
+      letter-spacing: 0.02em;
     }
 
-    .gate__vignette {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.6) 100%);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .gate__glow {
-      position: absolute;
-      top: -80px;
-      right: -80px;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(204,255,0,0.04) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .gate__content {
+    /* Mission grid */
+    .missions {
       position: relative;
       z-index: 2;
-      max-width: 480px;
-      width: 100%;
-      padding: 0 24px;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 768px) {
+      .missions {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 24px 16px 60px;
+      }
+    }
+
+    .mission {
+      position: relative;
+      background: #0A0A0A;
+      border: 1px solid #1a1a1a;
+      border-radius: 12px;
+      padding: 40px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    /* ── Label ── */
-    .gate__label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--font-label);
-      font-weight: 500;
-      font-size: 11px;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 24px;
-    }
-
-    .gate__label-line {
-      display: inline-block;
-      width: 24px;
-      height: 1px;
-      background: var(--color-accent);
-      opacity: 0.5;
-    }
-
-    .gate__label-dot {
-      display: inline-block;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--color-accent);
-      animation: gateBlink 1.4s ease-in-out infinite;
-      margin-left: 6px;
-    }
-
-    @keyframes gateBlink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.15; }
-    }
-
-    /* ── Heading ── */
-    .gate__heading {
-      font-family: var(--font-heading);
-      font-size: clamp(36px, 5vw, 64px);
-      color: var(--color-text);
-      line-height: 1.1;
-      margin-bottom: 12px;
-    }
-
-    .gate__heading em {
-      font-family: var(--font-accent);
-      font-style: italic;
-      color: var(--color-accent);
-    }
-
-    /* ── Subtext ── */
-    .gate__subtext {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 15px;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 40px;
-    }
-
-    /* ── Input wrapper (corner brackets) ── */
-    .gate__input-wrap {
-      position: relative;
-      width: 100%;
-      max-width: 360px;
-      margin-bottom: 16px;
-    }
-
-    .gate__input {
-      width: 100%;
-      background: rgba(255,255,255,0.03);
-      border: none;
-      border-top: 1.5px solid rgba(204,255,0,0.6);
-      border-radius: var(--radius-card);
-      padding: 16px 20px;
-      color: #fff;
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 15px;
-      text-align: center;
-      letter-spacing: 0.2em;
-      outline: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .gate__input::placeholder {
-      color: rgba(255,255,255,0.2);
-      letter-spacing: 0.2em;
-    }
-
-    /* Bottom-left L-bracket */
-    .gate__input-wrap::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 20px;
-      height: 20px;
-      border-left: 1.5px solid rgba(204,255,0,0.6);
-      border-bottom: 1.5px solid rgba(204,255,0,0.6);
-      border-bottom-left-radius: var(--radius-card);
-      pointer-events: none;
-      transition: border-color 0.3s ease;
-    }
-
-    /* Bottom-right L-bracket */
-    .gate__input-wrap::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 20px;
-      height: 20px;
-      border-right: 1.5px solid rgba(204,255,0,0.6);
-      border-bottom: 1.5px solid rgba(204,255,0,0.6);
-      border-bottom-right-radius: var(--radius-card);
-      pointer-events: none;
-      transition: border-color 0.3s ease;
-    }
-
-    /* Focus state */
-    .gate__input:focus {
-      border-top-color: rgba(204,255,0,1);
-      box-shadow: inset 0 0 20px rgba(204,255,0,0.06);
-    }
-
-    .gate__input:focus ~ .gate__input-wrap::before,
-    .gate__input-wrap:focus-within::before {
-      border-color: rgba(204,255,0,1);
-    }
-
-    .gate__input-wrap:focus-within::after {
-      border-color: rgba(204,255,0,1);
-    }
-
-    /* Error state */
-    .gate__input-wrap.is-error::before,
-    .gate__input-wrap.is-error::after {
-      border-color: rgba(255,80,80,0.8);
-    }
-
-    .gate__input-wrap.is-error .gate__input {
-      border-top-color: rgba(255,80,80,0.8);
-    }
-
-    /* ── Submit button ── */
-    .gate__submit {
-      width: 100%;
-      max-width: 360px;
-      background: var(--color-accent);
-      color: #000;
-      border: none;
-      border-radius: var(--radius-button);
-      padding: 14px 32px;
-      font-family: var(--font-button);
-      font-weight: 700;
-      font-size: 12px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
+      gap: 16px;
+      min-height: 240px;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.35s ease,
+                  box-shadow 0.35s ease;
+      opacity: 0;
+      transform: translateY(20px);
       cursor: pointer;
-      transition: opacity 0.2s ease, transform 0.2s ease;
     }
-
-    .gate__submit:hover {
-      opacity: 0.85;
-      transform: scale(1.02);
+    .mission:hover {
+      transform: translateY(-4px);
+      border-color: rgba(204, 255, 0, 0.3);
+      box-shadow: 0 0 40px rgba(204, 255, 0, 0.08);
     }
-
-    /* ── Feedback messages ── */
-    .gate__feedback {
-      height: 20px;
-      margin-top: 10px;
-      font-family: var(--font-label);
-      font-size: 11px;
-      letter-spacing: 0.3em;
+    @media (max-width: 768px) {
+      .mission { padding: 28px 24px; min-height: 200px; }
+    }
+    .mission__num {
+      font-family: 'Space Grotesk', var(--font-body);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      text-align: center;
-    }
-
-    .gate__feedback--success {
       color: var(--color-accent);
     }
-
-    .gate__feedback--error {
-      color: rgba(255,80,80,0.9);
+    .mission__client {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 2.5vw, 28px);
+      line-height: 1.1;
+      color: var(--color-text);
+      margin: 0;
+      letter-spacing: -0.01em;
+      font-weight: 900;
+    }
+    .mission__tags {
+      font-family: 'Space Grotesk', var(--font-body);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: auto;
+      letter-spacing: 0.04em;
+    }
+    .mission__status {
+      position: absolute;
+      bottom: 28px;
+      right: 28px;
+      font-family: 'Space Grotesk', var(--font-body);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      color: var(--color-text);
+    }
+    .mission__status--active { color: var(--color-accent); border-color: var(--color-accent); }
+    .mission__status--incoming {
+      color: rgba(255, 255, 255, 0.4);
+      border-color: rgba(255, 255, 255, 0.2);
+      border-style: dashed;
+    }
+    @media (max-width: 768px) {
+      .mission__status { bottom: 20px; right: 20px; font-size: 10px; padding: 5px 10px; }
+    }
+    .mission--classified .mission__client {
+      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: 0.04em;
+    }
+    .mission--classified {
+      animation: pf-pulse-border 3s ease-in-out infinite;
+    }
+    @keyframes pf-pulse-border {
+      0%, 100% { border-color: #1a1a1a; }
+      50%      { border-color: rgba(204, 255, 0, 0.35); }
     }
 
-    /* ── Request access link ── */
-    .gate__request {
-      margin-top: 32px;
-      font-family: var(--font-body);
-      font-size: 13px;
-      color: rgba(255,255,255,0.3);
+    /* Callout */
+    .pf-callout {
+      position: relative;
+      z-index: 2;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
     }
-
-    .gate__request a {
+    .pf-callout__heading {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      letter-spacing: 0.04em;
+      color: var(--color-text);
+      margin: 0 0 18px 0;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+    .pf-callout__body {
+      font-family: 'Space Grotesk', var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.55);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .pf-callout__link {
       color: var(--color-accent);
       text-decoration: none;
-      transition: opacity 0.2s ease;
+      border-bottom: 1px solid rgba(204, 255, 0, 0.4);
+      transition: border-color 0.2s ease;
     }
-
-    .gate__request a:hover {
-      opacity: 0.7;
-    }
-
-    /* ── Portfolio content (post-access) ── */
-    #portfolio-content {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0 24px;
-    }
-
-    .portfolio__label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--font-label);
-      font-weight: 500;
-      font-size: 11px;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.35);
-      margin-bottom: 24px;
-    }
-
-    .portfolio__heading {
-      font-family: var(--font-heading);
-      font-size: clamp(36px, 5vw, 64px);
-      color: var(--color-text);
-      line-height: 1.1;
-      margin-bottom: 16px;
-    }
-
-    .portfolio__heading em {
-      font-family: var(--font-accent);
-      font-style: italic;
-      color: var(--color-accent);
-    }
-
-    .portfolio__text {
-      font-family: var(--font-body);
-      font-weight: 400;
-      font-size: 15px;
-      color: rgba(255,255,255,0.45);
-      max-width: 420px;
-    }
-
-    /* ── Nav active state for portfolio page ── */
-    .nav__portfolio-btn.is-active {
-      opacity: 0.4;
-      pointer-events: none;
-    }
+    .pf-callout__link:hover { border-color: var(--color-accent); }
   </style>
 </head>
-<body>
-  <a href="#portfolio-content" class="skip-link">Skip to content</a>
+<body class="pf-page">
+  <a href="#main-content" class="skip-link">Skip to content</a>
 
   <!-- ============================================================
-       NAVIGATION
-       Same as index.html — wordmark added for sub-page, portfolio btn marked active
+       NAVIGATION — same as index.html / privacy / terms
   ============================================================ -->
   <nav id="nav" aria-label="Main navigation">
     <a href="/" class="nav__logo" aria-label="Carter Stoddard — Home">
       <span class="nav__logo-first">Carter</span>
       <span class="nav__logo-last">Stoddard</span>
-    </a>
-    <a href="portfolio.html" class="nav__portfolio-btn is-active">
-      <span class="nav__status-dot"></span>
-      PORTFOLIO
     </a>
     <button class="nav__menu-btn" aria-label="Open menu" aria-expanded="false">
       <span class="nav__reticle">
@@ -378,162 +257,262 @@
     </button>
   </nav>
 
-  <!-- HAMBURGER MENU OVERLAY — opens on nav hamburger click -->
+  <!-- HAMBURGER MENU OVERLAY -->
   <div id="menu-overlay" role="dialog" aria-modal="true" aria-label="Site navigation">
-    <!-- Subtle lime glow — atmosphere -->
     <div class="menu-overlay__glow" aria-hidden="true"></div>
-
     <div class="menu-overlay__content">
-      <!-- Left column — navigation links -->
       <nav class="menu-overlay__nav" aria-label="Site sections">
-        <a href="/#about" class="menu-overlay__link" data-menu-link>About</a>
+        <a href="/#about" class="menu-overlay__link" data-menu-link>About Me</a>
+        <a href="/#beyond-the-bio" class="menu-overlay__link" data-menu-link>My Story</a>
         <a href="/#stats" class="menu-overlay__link" data-menu-link>Numbers</a>
         <a href="/#services" class="menu-overlay__link" data-menu-link>Services</a>
         <a href="/#clients" class="menu-overlay__link" data-menu-link>Partnerships</a>
         <a href="/#testimonials" class="menu-overlay__link" data-menu-link>Testimonials</a>
         <a href="/#contact" class="menu-overlay__link" data-menu-link>Contact</a>
       </nav>
-
-      <!-- Right column — supplementary info -->
       <aside class="menu-overlay__aside">
         <span class="menu-overlay__label">CONNECT</span>
         <div class="menu-overlay__socials">
           <a href="https://www.linkedin.com/in/carterstoddard/" class="menu-overlay__social" target="_blank" rel="noopener">LinkedIn</a>
           <a href="mailto:carter@carterstoddard.com" class="menu-overlay__social">Email</a>
         </div>
-        <p class="menu-overlay__tagline">Create without limits.</p>
+        <p class="menu-overlay__tagline"><span class="menu-overlay__tagline-main">CREATE WITHOUT</span> <span class="menu-overlay__tagline-accent">LIMITS</span></p>
         <p class="menu-overlay__copy">&copy; 2026 Carter Stoddard LLC</p>
       </aside>
     </div>
   </div>
 
-
-  <!-- Full-page starfield — fixed behind everything, always visible -->
+  <!-- Full-page starfield -->
   <canvas id="starfield-canvas" aria-hidden="true"></canvas>
 
-
   <!-- ============================================================
-       PORTFOLIO CONTENT
+       MAIN
   ============================================================ -->
-  <main id="portfolio-content">
-    <span class="portfolio__label">PORTFOLIO</span>
-    <h1 class="portfolio__heading">COMING <em>SOON</em></h1>
-    <p class="portfolio__text">The mission grid is being assembled. Check back shortly.</p>
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="pf-hero" aria-label="Mission Control">
+      <span class="pf-hero__label" id="pf-hero-label">Portfolio</span>
+      <h1 class="pf-hero__heading" id="pf-hero-heading">Mission Control</h1>
+      <p class="pf-hero__subline" id="pf-hero-subline">Every client is a mission. Here's the record.</p>
+    </section>
+
+    <!-- Mission grid -->
+    <section class="missions" aria-label="Missions">
+      <a href="#" class="mission">
+        <span class="mission__num">Mission 01</span>
+        <h2 class="mission__client">Steak 'n' Shake</h2>
+        <p class="mission__tags">Video · Paid Ads · Web · Photography</p>
+        <span class="mission__status">Complete</span>
+      </a>
+      <a href="#" class="mission">
+        <span class="mission__num">Mission 02</span>
+        <h2 class="mission__client">Fuji San Sushi</h2>
+        <p class="mission__tags">Video · Product Renders</p>
+        <span class="mission__status">Complete</span>
+      </a>
+      <a href="#" class="mission">
+        <span class="mission__num">Mission 03</span>
+        <h2 class="mission__client">Active Client</h2>
+        <p class="mission__tags">Brand Identity · Social · Content</p>
+        <span class="mission__status mission__status--active">Active</span>
+      </a>
+      <a href="#" class="mission mission--classified">
+        <span class="mission__num">Mission 04</span>
+        <h2 class="mission__client">Classified</h2>
+        <p class="mission__tags">[ redacted ]</p>
+        <span class="mission__status mission__status--incoming">Incoming</span>
+      </a>
+      <a href="#" class="mission mission--classified">
+        <span class="mission__num">Mission 05</span>
+        <h2 class="mission__client">Classified</h2>
+        <p class="mission__tags">[ redacted ]</p>
+        <span class="mission__status mission__status--incoming">Incoming</span>
+      </a>
+      <a href="#" class="mission mission--classified">
+        <span class="mission__num">Mission 06</span>
+        <h2 class="mission__client">Classified</h2>
+        <p class="mission__tags">[ redacted ]</p>
+        <span class="mission__status mission__status--incoming">Incoming</span>
+      </a>
+      <a href="#" class="mission mission--classified">
+        <span class="mission__num">Mission 07</span>
+        <h2 class="mission__client">Classified</h2>
+        <p class="mission__tags">[ redacted ]</p>
+        <span class="mission__status mission__status--incoming">Incoming</span>
+      </a>
+      <a href="#" class="mission mission--classified">
+        <span class="mission__num">Mission 08</span>
+        <h2 class="mission__client">Classified</h2>
+        <p class="mission__tags">[ redacted ]</p>
+        <span class="mission__status mission__status--incoming">Incoming</span>
+      </a>
+    </section>
+
+    <!-- Callout -->
+    <section class="pf-callout" id="pf-callout" aria-label="Not everything makes it here">
+      <h2 class="pf-callout__heading">NOT EVERYTHING MAKES IT HERE</h2>
+      <p class="pf-callout__body">Some work lives under NDA. Some clients prefer it that way. If you've heard I've worked with a brand and don't see it here — that's probably why. <a href="/#contact" class="pf-callout__link">Ask me directly</a>.</p>
+    </section>
+
   </main>
 
+  <!-- ============================================================
+       FOOTER — same as index.html / privacy / terms (no earth)
+  ============================================================ -->
+  <footer id="footer" class="footer--no-earth" aria-label="Footer">
 
-  <!-- ═══════════════════════════════════════════════════════════
-       SCRIPTS — CDN + local modules
-  ═══════════════════════════════════════════════════════════ -->
+    <!-- ── Large background text — sits behind astronaut ── -->
+    <div class="footer__bg-text" aria-hidden="true">
+      <span class="footer__bg-line1">CREATE WITHOUT</span>
+      <span class="footer__bg-line2">LIMITS</span>
+    </div>
+
+    <!-- ── Mobile CTA — only visible on mobile, below heading ── -->
+    <a href="/#contact" class="glass-btn footer__mobile-cta">START A PROJECT &nbsp;→</a>
+
+    <!-- ── Center astronaut — sits in front of text ── -->
+    <img class="footer__astronaut" src="assets/images/portrait-astronaut-desktop.webp" alt="" aria-hidden="true" loading="lazy" />
+
+    <!-- ── Footer columns — sections left, connect right ── -->
+    <div class="footer__columns">
+      <nav class="footer__col footer__col--left" aria-label="Footer sections">
+        <span class="footer__col-label">SECTIONS</span>
+        <div class="footer__col-links">
+          <a href="/#about" class="footer__col-link">ABOUT ME</a>
+          <a href="/#beyond-the-bio" class="footer__col-link">MY STORY</a>
+          <a href="/#stats" class="footer__col-link">NUMBERS</a>
+          <a href="/#services" class="footer__col-link">SERVICES</a>
+          <a href="/#clients" class="footer__col-link">PARTNERSHIPS</a>
+          <a href="/#testimonials" class="footer__col-link">TESTIMONIALS</a>
+          <a href="/#contact" class="footer__col-link">CONTACT</a>
+        </div>
+      </nav>
+      <div class="footer__col footer__col--right">
+        <span class="footer__col-label">CONNECT</span>
+        <div class="footer__col-links">
+          <a href="https://www.linkedin.com/in/carterstoddard/" class="footer__col-link" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+          <a href="mailto:carter@carterstoddard.com" class="footer__col-link">EMAIL</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Bottom bar — copyright + CTA + legal ── -->
+    <div class="footer__bottom">
+      <div class="footer__copyright-bar">
+        <span class="footer__copyright">&copy; 2026 Carter Stoddard LLC. All rights reserved.</span>
+        <a href="/#contact" class="glass-btn footer__cta-btn">LAUNCH PROJECT</a>
+        <div class="footer__legal">
+          <a href="privacy-policy.html" class="footer__legal-link">Privacy Policy</a>
+          <a href="terms.html" class="footer__legal-link">Terms</a>
+        </div>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS
+  ============================================================ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" integrity="sha384-tKsJDT6PlUI0pSBt9/sBKJluKgA19/a6mBrDsZaXotLB4ZYfMGM6xt6/WgGpYhTm" crossorigin="anonymous"></script>
 
-  <!-- Starfield only — no loader, hero, or animations needed on this page -->
-  <script src="js/starfield.js"></script>
-  <script src="js/footer.js"></script>
+  <!-- Site modules — starfield + menu overlay -->
+  <script src="js/starfield.js?v=20260430-6"></script>
+  <script src="js/animations.js?v=20260430-6"></script>
+  <script src="js/footer.js?v=20260430-6"></script>
 
   <script>
-    (() => {
-      /* ── Lenis smooth scroll ── */
-      if (typeof Lenis !== 'undefined') {
-        const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-        window.lenis = new Lenis({
-          duration: 1.6,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          smoothWheel: !isTouchDevice,
-          smoothTouch: false,
-          syncTouch: false,
+    // Starfield init
+    (function initStarfield() {
+      var canvas = document.getElementById('starfield-canvas');
+      if (canvas && typeof Starfield !== 'undefined') Starfield.init(canvas);
+    })();
+
+    // Menu overlay init (basic — open/close on hamburger click)
+    (function initMenu() {
+      var btn = document.querySelector('.nav__menu-btn');
+      var overlay = document.getElementById('menu-overlay');
+      if (!btn || !overlay) return;
+      btn.addEventListener('click', function() {
+        var isOpen = overlay.classList.toggle('is-open');
+        btn.classList.toggle('is-open', isOpen);
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        document.body.style.overflow = isOpen ? 'hidden' : '';
+      });
+      // Close on link click
+      overlay.querySelectorAll('[data-menu-link]').forEach(function(link) {
+        link.addEventListener('click', function() {
+          overlay.classList.remove('is-open');
+          btn.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
         });
-        gsap.ticker.add((time) => { window.lenis.raf(time * 1000); });
-        gsap.ticker.lagSmoothing(0);
+      });
+      // Close on Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+          overlay.classList.remove('is-open');
+          btn.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        }
+      });
+    })();
+
+    // Lenis smooth scroll on desktop only
+    (function initLenis() {
+      if (typeof Lenis === 'undefined' || typeof gsap === 'undefined') return;
+      var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+      if (isTouch) return;
+      var lenis = new Lenis({
+        duration: 1.4,
+        easing: function(t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+        smoothWheel: true,
+        smoothTouch: false,
+      });
+      window.lenis = lenis;
+      gsap.ticker.add(function(time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    })();
+
+    // GSAP animations
+    (function animate() {
+      if (typeof gsap === 'undefined') return;
+      if (typeof ScrollTrigger !== 'undefined') gsap.registerPlugin(ScrollTrigger);
+
+      // Hero entrance
+      var heroEls = ['#pf-hero-label', '#pf-hero-heading', '#pf-hero-subline']
+        .map(function(sel) { return document.querySelector(sel); })
+        .filter(Boolean);
+      gsap.set(heroEls, { y: 24 });
+      gsap.to(heroEls, {
+        opacity: 1, y: 0,
+        duration: 0.9, ease: 'power3.out',
+        stagger: 0.2, delay: 0.15,
+      });
+
+      // Mission cards — staggered fade-up on scroll
+      gsap.utils.toArray('.mission').forEach(function(card, i) {
+        gsap.to(card, {
+          opacity: 1, y: 0,
+          duration: 0.7, ease: 'power2.out',
+          delay: i * 0.1,
+          scrollTrigger: { trigger: card, start: 'top 88%', once: true },
+        });
+      });
+
+      // Callout — single fade-up
+      var callout = document.getElementById('pf-callout');
+      if (callout) {
+        gsap.to(callout, {
+          opacity: 1, y: 0,
+          duration: 0.9, ease: 'power2.out',
+          scrollTrigger: { trigger: callout, start: 'top 85%', once: true },
+        });
       }
-
-      /* ── Init starfield ── */
-      const starCanvas = document.getElementById('starfield-canvas');
-      if (starCanvas && typeof Starfield !== 'undefined') {
-        Starfield.init(starCanvas);
-      }
-
-      /* ── Hamburger menu ── */
-      (function initMenu() {
-        const menuBtn = document.querySelector('.nav__menu-btn');
-        const overlay = document.getElementById('menu-overlay');
-        const links   = overlay.querySelectorAll('[data-menu-link]');
-        let isOpen = false;
-
-        menuBtn.addEventListener('click', () => {
-          isOpen = !isOpen;
-          menuBtn.classList.toggle('is-open', isOpen);
-          menuBtn.setAttribute('aria-expanded', isOpen);
-
-          if (isOpen) {
-            overlay.style.visibility = 'visible';
-            overlay.classList.add('is-open');
-            gsap.to(overlay, { opacity: 1, duration: 0.4, ease: 'power2.out' });
-          } else {
-            overlay.classList.remove('is-open');
-            gsap.to(overlay, {
-              opacity: 0,
-              duration: 0.3,
-              ease: 'power2.in',
-              onComplete: () => { overlay.style.visibility = 'hidden'; }
-            });
-          }
-        });
-
-        // Close on link click
-        links.forEach(link => {
-          link.addEventListener('click', () => {
-            isOpen = false;
-            menuBtn.classList.remove('is-open');
-            menuBtn.setAttribute('aria-expanded', 'false');
-            overlay.classList.remove('is-open');
-            gsap.to(overlay, {
-              opacity: 0,
-              duration: 0.3,
-              ease: 'power2.in',
-              onComplete: () => { overlay.style.visibility = 'hidden'; }
-            });
-          });
-        });
-
-        // Close on Escape + focus trap
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && isOpen) {
-            isOpen = false;
-            menuBtn.classList.remove('is-open');
-            menuBtn.setAttribute('aria-expanded', 'false');
-            gsap.to(overlay, {
-              opacity: 0,
-              duration: 0.3,
-              ease: 'power2.in',
-              onComplete: () => { overlay.style.visibility = 'hidden'; }
-            });
-            menuBtn.focus();
-          }
-          // Focus trap
-          if (e.key === 'Tab' && isOpen) {
-            const focusable = overlay.querySelectorAll('a[href], button');
-            const first = focusable[0];
-            const last = focusable[focusable.length - 1];
-            if (e.shiftKey && document.activeElement === first) {
-              e.preventDefault();
-              last.focus();
-            } else if (!e.shiftKey && document.activeElement === last) {
-              e.preventDefault();
-              first.focus();
-            }
-          }
-        });
-
-        // Set initial state
-        overlay.style.opacity = '0';
-        overlay.style.visibility = 'hidden';
-      })();
-
     })();
   </script>
-
 </body>
 </html>

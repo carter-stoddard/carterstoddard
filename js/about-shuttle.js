@@ -17,10 +17,15 @@ function init() {
     return;
   }
 
+  // Skip 3D scene entirely on mobile — saves memory + GPU + improves performance
+  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (isTouch) {
+    canvas.style.display = 'none';
+    return;
+  }
+
   const w = canvas.clientWidth  || 400;
   const h = canvas.clientHeight || 300;
-
-  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isTouch });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, isTouch ? 1.5 : 2));
   renderer.setSize(w, h, false);
