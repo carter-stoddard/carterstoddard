@@ -337,7 +337,8 @@ const Animations = (() => {
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        end: () => `+=${track.scrollWidth - window.innerWidth}`,
+        // Extend pin duration — gives the horizontal scroll more time before vertical resumes
+        end: () => `+=${(track.scrollWidth - window.innerWidth) * 1.4}`,
         pin: true,
         anticipatePin: 1,
         scrub: 3,
