@@ -34,21 +34,23 @@ document.addEventListener('DOMContentLoaded', () => {
   Loader.init(() => {
     document.body.classList.add('site-ready');
 
-    // Lenis smooth scroll — desktop only. Mobile uses native scroll for performance.
+    // Lenis smooth scroll — active on both desktop and mobile for consistent
+    // smoothness across the site. On mobile we use syncTouch so native iOS
+    // momentum is preserved while Lenis stays in sync with ScrollTrigger.
     const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-    if (!isTouchDevice && typeof Lenis !== 'undefined') {
+    if (typeof Lenis !== 'undefined') {
       window.lenis = new Lenis({
-        duration: 1.6,
+        duration: isTouchDevice ? 1.0 : 1.6,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        smoothTouch: false,
-        syncTouch: false,
+        smoothTouch: false,    // don't fully take over touch (would break momentum)
+        syncTouch: isTouchDevice, // sync ScrollTrigger with native touch scroll
       });
       window.lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => { window.lenis.raf(time * 1000); });
       gsap.ticker.lagSmoothing(0);
 
-      // Desktop only — proxy lets ScrollTrigger read Lenis scroll position
+      // ScrollTrigger proxy — keeps pin/scroll positions accurate
       ScrollTrigger.scrollerProxy(document.documentElement, {
         scrollTop(value) {
           if (arguments.length) { window.lenis.scrollTo(value, { immediate: true }); }

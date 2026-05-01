@@ -461,16 +461,16 @@
       });
     })();
 
-    // Lenis smooth scroll on desktop only
+    // Lenis smooth scroll — site-wide (desktop + mobile)
     (function initLenis() {
       if (typeof Lenis === 'undefined' || typeof gsap === 'undefined') return;
       var isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-      if (isTouch) return;
       var lenis = new Lenis({
-        duration: 1.4,
+        duration: isTouch ? 1.0 : 1.4,
         easing: function(t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
         smoothWheel: true,
         smoothTouch: false,
+        syncTouch: isTouch,
       });
       window.lenis = lenis;
       gsap.ticker.add(function(time) { lenis.raf(time * 1000); });
