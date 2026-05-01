@@ -60,9 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
         pinType: document.documentElement.style.transform ? 'transform' : 'fixed',
       });
       ScrollTrigger.defaults({ scroller: document.documentElement });
-
-      ScrollTrigger.refresh();
     }
+
+    // Refresh ScrollTrigger after layout settles (both mobile + desktop)
+    ScrollTrigger.refresh();
+    setTimeout(function() { ScrollTrigger.refresh(); }, 200);
 
     // Force scroll to top again after Lenis init
     window.scrollTo(0, 0);

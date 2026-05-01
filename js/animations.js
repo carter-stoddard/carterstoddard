@@ -278,58 +278,6 @@ const Animations = (() => {
       if (bar) gsap.set(bar, { scaleX: 0, transformOrigin: 'left center' });
     });
 
-    // Mobile — sticky scroll (CSS sticky + scroll listener, no GSAP pin = no crash)
-    // Section gets tall enough to scroll through all cards, sticky wrapper keeps
-    // content in viewport, and scroll progress drives track.scrollLeft.
-    if (isMobileAbout) {
-      // Wipe animations fire on enter
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top 75%',
-        once: true,
-        onEnter: function() {
-          track.querySelectorAll('.about__wipe').forEach(function(el, i) {
-            fireWipe(el, i * 0.08);
-          });
-        },
-      });
-
-      // Wrap all section children in a sticky container
-      var sticky = document.createElement('div');
-      sticky.style.cssText = 'position:sticky;top:0;height:100vh;overflow:hidden;width:100%;display:flex;flex-direction:column;justify-content:center;';
-      while (section.firstChild) sticky.appendChild(section.firstChild);
-      section.appendChild(sticky);
-
-      // Track: JS drives scrollLeft, no native scroll
-      track.style.overflowX = 'hidden';
-
-      function setAboutHeight() {
-        var scrollDist = track.scrollWidth - window.innerWidth;
-        section.style.height = (scrollDist + window.innerHeight) + 'px';
-      }
-      setAboutHeight();
-      window.addEventListener('resize', setAboutHeight, { passive: true });
-
-      // Lerp target — RAF loop smooths it like GSAP scrub
-      var targetLeft = 0;
-      var currentLeft = 0;
-
-      window.addEventListener('scroll', function() {
-        var scrollDist = track.scrollWidth - window.innerWidth;
-        if (scrollDist <= 0) return;
-        var progress = Math.max(0, Math.min(1, -section.getBoundingClientRect().top / scrollDist));
-        targetLeft = progress * scrollDist;
-      }, { passive: true });
-
-      (function rafLoop() {
-        currentLeft += (targetLeft - currentLeft) * 0.12;
-        track.scrollLeft = currentLeft;
-        requestAnimationFrame(rafLoop);
-      })();
-
-      return;
-    }
-
     const scrollTween = gsap.to(track, {
       x: () => -(track.scrollWidth - window.innerWidth),
       ease: 'none',
@@ -337,8 +285,7 @@ const Animations = (() => {
       scrollTrigger: {
         trigger: section,
         start: 'top top',
-        // Extend pin duration — gives the horizontal scroll more time before vertical resumes
-        end: () => `+=${(track.scrollWidth - window.innerWidth) * 1.4}`,
+        end: () => `+=${track.scrollWidth - window.innerWidth}`,
         pin: true,
         anticipatePin: 1,
         scrub: 3,
