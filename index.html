@@ -87,7 +87,8 @@
       <span class="loader__name-first">Carter</span>
       <span class="loader__name-last">Stoddard</span>
     </div>
-    <span class="loader__tagline">Full-Stack Marketer &amp; Creative</span>
+    <span class="loader__tagline">Your Marketing &amp; Creative Guy</span>
+    <img class="loader__astronaut" src="assets/images/Astronaut-Floating.webp" alt="" aria-hidden="true" />
   </div>
 
   <!-- All site content -->
@@ -103,11 +104,12 @@
       <span class="nav__logo-first">Carter</span>
       <span class="nav__logo-last">Stoddard</span>
     </a>
-    <!-- Portfolio nav hidden while page is under construction -->
-    <!-- <a href="portfolio.html" class="nav__portfolio-btn">
-      <span class="nav__status-dot"></span>
-      PORTFOLIO
-    </a> -->
+    <button type="button" class="nav__portfolio-btn" id="portfolio-btn" aria-label="Open portfolio">
+      <svg class="nav__portfolio-lock" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M4 7V5a4 4 0 1 1 8 0v2h.5a1.5 1.5 0 0 1 1.5 1.5v5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5v-5A1.5 1.5 0 0 1 3.5 7H4zm1.5 0h5V5a2.5 2.5 0 0 0-5 0v2z" fill="currentColor"/>
+      </svg>
+      <span>PORTFOLIO</span>
+    </button>
     <button class="nav__menu-btn" aria-label="Open menu" aria-expanded="false">
       <span class="nav__reticle">
         <span class="nav__reticle-tl"></span>
@@ -448,7 +450,7 @@
       <span class="bio-video__label">MY STORY</span>
       <h2 class="bio-video__heading">
         <span class="bio-video__heading-main">BEYOND</span>
-        <span class="bio-video__heading-accent">the Bio.</span>
+        <span class="bio-video__heading-accent">the Bio</span>
       </h2>
       <p class="bio-video__subtext">My life in motion.</p>
     </div>
@@ -529,7 +531,7 @@
     </div>
 
     <div class="stats__cta container">
-      <a href="#contact" class="glass-btn cta-btn--match">READY TO ADD TO THESE NUMBERS?</a>
+      <a href="#contact" class="glass-btn cta-btn--match">BE THE NEXT NUMBER?</a>
     </div>
   </section>
 
@@ -556,7 +558,7 @@
       <!-- Bento grid -->
       <div class="services__bento" aria-label="Service categories">
 
-        <button type="button" class="services__tile services__tile--tall services__tile--accent" data-service-index="0">
+        <button type="button" class="services__tile services__tile--tall" data-service-index="0">
           <span class="services__tile-num">01</span>
           <span class="services__tile-name">Web Design, Development &amp; <span class="services__tile-accent">Apps</span></span>
           <span class="services__tile-arrow" aria-hidden="true">→</span>
@@ -1135,6 +1137,70 @@
 
   </div><!-- /#site-content -->
 
+  <!-- ── Portfolio Access Modal (must be above scripts so JS can find it) ── -->
+  <div id="portfolio-modal" class="portfolio-modal" role="dialog" aria-modal="true" aria-labelledby="portfolio-modal-heading" aria-hidden="true">
+    <div class="portfolio-modal__panel">
+      <button type="button" class="portfolio-modal__close" id="portfolio-modal-close" aria-label="Close">×</button>
+
+      <!-- STATE 1: Locked -->
+      <div class="portfolio-modal__view portfolio-modal__view--locked" data-view="locked">
+        <div class="portfolio-modal__lock" aria-hidden="true">
+          <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 14V10a7 7 0 0 1 14 0v4h1a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3h1zm3 0h8v-4a4 4 0 0 0-8 0v4z" fill="#CCFF00"/>
+          </svg>
+        </div>
+        <span class="portfolio-modal__label">RESTRICTED ACCESS</span>
+        <h2 class="portfolio-modal__heading" id="portfolio-modal-heading">
+          <span class="portfolio-modal__heading-main">PORTFOLIO</span>
+          <span class="portfolio-modal__heading-accent">Locked</span>
+        </h2>
+        <p class="portfolio-modal__body">My portfolio is currently invite-only.<br>Request access below and I'll send you the password within 24 hours.</p>
+        <button type="button" class="glass-btn portfolio-modal__cta" id="portfolio-request-btn">REQUEST ACCESS →</button>
+      </div>
+
+      <!-- STATE 2: Request form -->
+      <div class="portfolio-modal__view portfolio-modal__view--form" data-view="form" hidden>
+        <span class="portfolio-modal__label">ACCESS REQUEST</span>
+        <h2 class="portfolio-modal__heading">
+          <span class="portfolio-modal__heading-main">REQUEST</span>
+          <span class="portfolio-modal__heading-accent">Access</span>
+        </h2>
+        <form id="portfolio-form" class="portfolio-modal__form" novalidate>
+          <div class="portfolio-modal__row">
+            <div class="portfolio-modal__field">
+              <label for="portfolio-first-name">FIRST NAME</label>
+              <input type="text" id="portfolio-first-name" name="first_name" required />
+            </div>
+            <div class="portfolio-modal__field">
+              <label for="portfolio-last-name">LAST NAME</label>
+              <input type="text" id="portfolio-last-name" name="last_name" required />
+            </div>
+          </div>
+          <div class="portfolio-modal__field">
+            <label for="portfolio-email">EMAIL</label>
+            <input type="email" id="portfolio-email" name="email" required />
+          </div>
+          <div class="portfolio-modal__field">
+            <label for="portfolio-company">COMPANY</label>
+            <input type="text" id="portfolio-company" name="company" required />
+          </div>
+          <button type="submit" class="glass-btn portfolio-modal__submit" id="portfolio-submit">SUBMIT REQUEST</button>
+          <p class="portfolio-modal__error" id="portfolio-error" aria-live="polite"></p>
+        </form>
+      </div>
+
+      <!-- STATE 3: Success -->
+      <div class="portfolio-modal__view portfolio-modal__view--success" data-view="success" hidden>
+        <span class="portfolio-modal__label">REQUEST RECEIVED <span class="portfolio-modal__dot" aria-hidden="true"></span></span>
+        <h2 class="portfolio-modal__heading">
+          <span class="portfolio-modal__heading-main">YOU'RE</span>
+          <span class="portfolio-modal__heading-accent">In Queue</span>
+        </h2>
+        <p class="portfolio-modal__body">Your request is in. I'll reach out within 24 hours with access.<br>In the meantime, reach me at<br><a href="mailto:carter@carterstoddard.com" class="portfolio-modal__email">carter@carterstoddard.com</a></p>
+      </div>
+    </div>
+  </div>
+
 
   <!-- ============================================================
        SCRIPTS
@@ -1170,6 +1236,7 @@
   <script src="js/animations.js?v=20260412"></script>
   <script src="js/contact.js?v=20260412"></script>
   <script src="js/services-modal.js?v=20260430"></script>
+  <script src="js/portfolio-modal.js?v=20260430"></script>
   <script>
     (function() {
       var video = document.getElementById('bio-video-player');

@@ -384,7 +384,7 @@ const Animations = (() => {
       ScrollTrigger.create({
         trigger: group,
         containerAnimation: scrollTween,
-        start: 'left 65%',
+        start: 'left 90%',
         once: true,
         onEnter: function() {
           lines.forEach(function(line, i) {
@@ -392,6 +392,43 @@ const Animations = (() => {
           });
         },
       });
+    });
+  }
+
+  // ----------------------------------------------------------
+  // Beyond the Bio reveal — header + video frame + CTA
+  // ----------------------------------------------------------
+  function bioVideoReveal() {
+    if (typeof gsap === 'undefined') return;
+
+    var section = document.getElementById('beyond-the-bio');
+    if (!section) return;
+
+    var label = section.querySelector('.bio-video__label');
+    var headMain = section.querySelector('.bio-video__heading-main');
+    var headAccent = section.querySelector('.bio-video__heading-accent');
+    var subtext = section.querySelector('.bio-video__subtext');
+    var frame = section.querySelector('.bio-video__frame');
+    var ctaWrap = section.querySelector('.bio-video__cta');
+
+    var headerEls = [label, headMain, headAccent, subtext].filter(Boolean);
+    gsap.set(headerEls, { opacity: 0, y: 14 });
+    if (frame) gsap.set(frame, { opacity: 0, y: 30 });
+    if (ctaWrap) gsap.set(ctaWrap, { opacity: 0, y: 20 });
+
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 75%',
+      once: true,
+      onEnter: function() {
+        var tl = gsap.timeline();
+        if (label)      tl.to(label,      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0);
+        if (headMain)   tl.to(headMain,   { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.1);
+        if (headAccent) tl.to(headAccent, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 0.15);
+        if (subtext)    tl.to(subtext,    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.2);
+        if (frame)      tl.to(frame,      { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, 0.25);
+        if (ctaWrap)    tl.to(ctaWrap,    { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 0.5);
+      },
     });
   }
 
@@ -515,18 +552,6 @@ const Animations = (() => {
       }
     });
 
-    // 4. Synchronized blink — all numbers flash together after counts finish
-    tl.addLabel('countsDone', 'numbersStart+=' + countDuration);
-    tl.to(numbers, {
-      keyframes: [
-        { opacity: 0.3, duration: 0.06 },
-        { opacity: 1, duration: 0.06 },
-        { opacity: 0.5, duration: 0.06 },
-        { opacity: 1, duration: 0.06 },
-        { opacity: 0.2, duration: 0.06 },
-        { opacity: 1, duration: 0.12 },
-      ],
-    }, 'countsDone');
   }
 
   // ----------------------------------------------------------
@@ -932,7 +957,7 @@ const Animations = (() => {
     });
   }
 
-  return { init, heroEntrance, quoteReveal, aboutScroll, statsReveal, servicesReveal, clientsGrid, testimonialsReveal, contactReveal, footerReveal };
+  return { init, heroEntrance, quoteReveal, aboutScroll, bioVideoReveal, statsReveal, servicesReveal, clientsGrid, testimonialsReveal, contactReveal, footerReveal };
 
 })();
 

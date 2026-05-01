@@ -131,10 +131,10 @@
   cursor: pointer;
   isolation: isolate;
   transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
-  box-shadow: 0 0 24px rgba(204, 255, 0, 0.35);
+  box-shadow: none;
 }
 
-/* Rotating gradient ring (subtle outer glow) */
+/* Rotating gradient ring — hidden by default, only on hover */
 .glass-btn::before {
   content: '';
   position: absolute;
@@ -151,7 +151,8 @@
   animation: glass-btn-rotate 4s linear infinite;
   z-index: -1;
   filter: blur(4px);
-  opacity: 0.6;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .glass-btn:hover {
@@ -629,14 +630,24 @@ button {
 .loader__tagline {
   position: relative;
   z-index: 1;
-  font-family: var(--font-body);
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(18px, 2.4vw, 26px);
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
   opacity: 0;
-  margin-top: 4px;
+  margin-top: 14px;
+  text-shadow: 0 0 16px rgba(204, 255, 0, 0.35);
+}
+
+.loader__astronaut {
+  position: relative;
+  z-index: 1;
+  width: clamp(120px, 14vw, 200px);
+  height: auto;
+  margin-top: 32px;
+  opacity: 0;
 }
 
 /* Loader hidden state — added by JS after sequence completes */
@@ -780,6 +791,233 @@ button {
     transform: scale(1.35);
     box-shadow: 0 0 5px 2px rgba(204, 255, 0, 0.35);
   }
+}
+
+/* ── Portfolio (locked) button ── */
+.nav__portfolio-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background: rgba(204, 255, 0, 0.06);
+  border: 2px solid rgba(204, 255, 0, 0.4);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.nav__portfolio-btn:hover {
+  background: rgba(204, 255, 0, 0.14);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+.nav__portfolio-lock {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .nav__portfolio-btn {
+    padding: 8px 12px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+  }
+  .nav__portfolio-btn span {
+    display: none;
+  }
+  .nav__portfolio-lock {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* ── Portfolio Access Modal ── */
+.portfolio-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+.portfolio-modal.is-open {
+  opacity: 1;
+  pointer-events: all;
+  visibility: visible;
+}
+.portfolio-modal__panel {
+  position: relative;
+  background: #0d0d0d;
+  border: 1px solid rgba(204, 255, 0, 0.25);
+  border-radius: 14px;
+  padding: 44px 36px 36px;
+  max-width: 480px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  text-align: center;
+}
+.portfolio-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+  transition: color 0.2s ease;
+}
+.portfolio-modal__close:hover {
+  color: var(--color-accent);
+}
+.portfolio-modal__view[hidden] { display: none !important; }
+
+.portfolio-modal__lock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 18px;
+  filter: drop-shadow(0 0 12px rgba(204, 255, 0, 0.4));
+}
+.portfolio-modal__lock svg {
+  width: 56px;
+  height: 56px;
+  display: block;
+}
+.portfolio-modal__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 14px;
+}
+.portfolio-modal__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: status-pulse 2s ease-in-out infinite;
+}
+.portfolio-modal__heading {
+  margin: 0 0 14px;
+  line-height: 1;
+}
+.portfolio-modal__heading-main {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+.portfolio-modal__heading-accent {
+  display: block;
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: var(--color-accent);
+  text-transform: uppercase;
+}
+.portfolio-modal__body {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.6;
+  margin: 0 0 22px;
+}
+.portfolio-modal__email {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(204, 255, 0, 0.4);
+}
+.portfolio-modal__cta {
+  margin-top: 6px;
+}
+
+/* Form view */
+.portfolio-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 18px;
+  text-align: left;
+}
+.portfolio-modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.portfolio-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+@media (max-width: 480px) {
+  .portfolio-modal__row {
+    grid-template-columns: 1fr;
+  }
+}
+.portfolio-modal__field label {
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+}
+.portfolio-modal__field input {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: #ffffff;
+  background: #141414;
+  border: 2px solid rgba(204, 255, 0, 0.18);
+  border-radius: 10px;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.portfolio-modal__field input:focus {
+  border-color: rgba(204, 255, 0, 0.6);
+  background: #181818;
+}
+.portfolio-modal__submit {
+  margin-top: 6px;
+  align-self: center;
+}
+.portfolio-modal__error {
+  color: #ff6b6b;
+  font-family: var(--font-body);
+  font-size: 12px;
+  text-align: center;
+  margin: 4px 0 0;
+  min-height: 16px;
 }
 
 /* ── Hamburger button (reticle) ── */
@@ -1206,33 +1444,33 @@ button {
 /* ── Scroll prompt — bottom center of hero, neon accent ── */
 .hero__scroll-prompt {
   position: absolute;
-  bottom: 32px;
+  bottom: 48px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: var(--z-content);
+  z-index: calc(var(--z-content) + 5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
   opacity: 0;
   animation: scroll-prompt-in 1s var(--ease-out) 2.5s forwards;
 }
 
 .hero__scroll-prompt-line {
-  width: 1px;
-  height: 32px;
+  width: 2px;
+  height: 44px;
   background: linear-gradient(to bottom, transparent, var(--color-accent));
   animation: scroll-line-pulse 2.4s ease-in-out infinite;
 }
 
 .hero__scroll-prompt-text {
   font-family: var(--font-label);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--color-accent);
-  text-shadow: 0 0 8px rgba(204, 255, 0, 0.5), 0 0 20px rgba(204, 255, 0, 0.2);
+  text-shadow: 0 0 12px rgba(204, 255, 0, 0.7), 0 0 24px rgba(204, 255, 0, 0.35);
   animation: scroll-text-glow 2.4s ease-in-out infinite;
 }
 
@@ -1723,6 +1961,7 @@ button {
   font-weight: 700;
   font-size: clamp(3rem, 9vw, 8rem);
   color: var(--color-accent);
+  text-transform: uppercase;
   line-height: 0.9;
   margin-top: -0.1em;
 }
@@ -1732,7 +1971,7 @@ button {
   font-style: italic;
   font-weight: 700;
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.6);
+  color: #ffffff;
   margin: 0;
 }
 
@@ -1860,7 +2099,7 @@ button {
 
 @media (max-width: 768px) {
   #beyond-the-bio {
-    padding: 2rem 0;
+    padding: 2.5rem 0;
   }
   .bio-video__play-icon {
     width: 60px;
@@ -1947,12 +2186,13 @@ button {
 .services__subtext,
 .clients__subtext,
 .test__subtext,
-.contact__subtext {
+.contact__subtext,
+.bio-video__subtext {
   font-family: var(--font-accent) !important;
   font-style: italic !important;
   font-weight: 700 !important;
   font-size: 18px !important;
-  color: rgba(255, 255, 255, 0.6) !important;
+  color: #ffffff !important;
   margin: 0 !important;
   text-align: center !important;
 }
@@ -3334,24 +3574,31 @@ button {
   }
 
   .hero__scroll-prompt {
-    bottom: 14px;
+    bottom: 24px;
+  }
+  .hero__scroll-prompt-text {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+  }
+  .hero__scroll-prompt-line {
+    height: 36px;
   }
 
   /* Reduce section spacing on mobile */
   #about, #quote, #services, #clients, #testimonials {
-    padding: 2rem 0;
+    padding: 2.5rem 0;
   }
 
   #contact {
-    padding: 2rem 0 0.5rem;
+    padding: 2.5rem 0 0.5rem;
   }
 
   #stats {
-    padding: 2rem 0;
+    padding: 2.5rem 0;
   }
 
   .section-spacer {
-    height: 0.5rem;
+    height: 0.625rem;
   }
 
   /* Portrait — anchored to bottom of hero on mobile so no crop gap shows */

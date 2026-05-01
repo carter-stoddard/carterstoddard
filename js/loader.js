@@ -20,6 +20,7 @@ const Loader = (() => {
     const nameEl = el.querySelector('.loader__name');
     const progressBar = document.getElementById('loader-progress');
     const tagline = el.querySelector('.loader__tagline');
+    const astronaut = el.querySelector('.loader__astronaut');
 
     if (!nameEl || typeof gsap === 'undefined') {
       el.style.display = 'none';
@@ -92,6 +93,30 @@ const Loader = (() => {
         { opacity: 0 },
         { opacity: 1, y: 0, duration: 1.4, ease: 'power1.out' },
         0.8
+      );
+    }
+
+    if (astronaut) {
+      // Float up from below into place, then start gentle bobbing loop
+      tl.fromTo(astronaut,
+        { opacity: 0, y: window.innerHeight * 0.5 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 2.4,
+          ease: 'power2.out',
+          onComplete: function() {
+            gsap.to(astronaut, {
+              y: -10,
+              rotation: 3,
+              duration: 2,
+              ease: 'sine.inOut',
+              yoyo: true,
+              repeat: -1,
+            });
+          },
+        },
+        0.6
       );
     }
   }

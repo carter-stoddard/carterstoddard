@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
       Animations.heroEntrance();
       Animations.quoteReveal();
       Animations.aboutScroll();
+      Animations.bioVideoReveal();
       Animations.statsReveal();
       Animations.servicesReveal();
       Animations.clientsGrid();
