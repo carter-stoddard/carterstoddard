@@ -1342,8 +1342,11 @@ button {
 #hero {
   position: relative;
   width: 100%;
+  /* 100vh = large viewport on iOS Safari — extends BEHIND the URL bar so
+     the hero fills the screen edge to edge (same behavior as lululemon.com).
+     100lvh is the explicit modern equivalent. */
   height: 100vh;
-  height: 100dvh;
+  height: 100lvh;
   min-height: 600px;
   display: flex;
   align-items: center;
@@ -1352,7 +1355,9 @@ button {
   background: transparent; /* starfield canvas shows through from behind */
 }
 
-/* Full-page starfield — fixed behind everything site-wide */
+/* Full-page starfield — fixed behind everything site-wide.
+   Uses the LARGE viewport (100lvh / 100vh on iOS) so the canvas extends
+   behind iOS Safari's URL bar instead of leaving a black gap. */
 #starfield-canvas {
   position: fixed;
   top: 0;
@@ -1361,7 +1366,7 @@ button {
   bottom: 0;
   width: 100vw;
   height: 100vh;
-  height: 100dvh;
+  height: 100lvh;
   z-index: 0;
 }
 
@@ -3674,7 +3679,10 @@ button {
   }
 
   .hero__scroll-prompt {
-    bottom: 8px;
+    /* Hero is 100lvh (extends behind iOS Safari URL bar), so lift the
+       prompt by the URL-bar height so it stays visible. The lvh-dvh
+       difference equals the URL-bar height when shown, 0 when collapsed. */
+    bottom: calc(8px + (100lvh - 100dvh) + env(safe-area-inset-bottom, 0px));
   }
   .hero__scroll-prompt-text {
     font-size: 11px;
