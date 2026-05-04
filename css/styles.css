@@ -843,6 +843,7 @@ button {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   z-index: 9999;
   background: rgba(0, 0, 0, 0.92);
   display: flex;
@@ -1161,6 +1162,7 @@ button {
   inset: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   background: rgba(0, 0, 0, 0.96);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -1603,6 +1605,7 @@ button {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   /* No overflow hidden — text must enter from fully off-screen bottom */
 }
@@ -1740,6 +1743,7 @@ button {
   position: relative;
   padding: 0;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden; /* no scrollbars, contained both axes */
   display: flex;
   flex-direction: column;
@@ -1822,16 +1826,19 @@ button {
   opacity: 0;
 }
 
-/* Horizontal strip — scrolls left via GSAP translate */
+/* Horizontal strip — scrolls left via GSAP translate.
+   flex: 1 + min-height: 0 makes the track fill the space remaining
+   below .about__header instead of inheriting 100vh and overflowing. */
 .about__track {
   position: relative;
   z-index: 2;
   display: flex;
   align-items: stretch;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   width: max-content;
   gap: clamp(1.5rem, 2.5vw, 3rem);
-  padding: 80px clamp(5vw, 8vw, 10vw);
+  padding: clamp(20px, 3vh, 48px) clamp(5vw, 8vw, 10vw);
   will-change: transform;
   transform: translateZ(0);
   -webkit-backface-visibility: hidden;
@@ -1845,6 +1852,8 @@ button {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  min-height: 0;
+  max-height: 100%;
   gap: 0.6rem;
 }
 
@@ -1882,7 +1891,9 @@ button {
 
 /* ── Placeholder image box — image keeps natural aspect ratio ── */
 .about__card-img {
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 100%;
   width: 100%;
   display: block;
   line-height: 0;
@@ -1893,7 +1904,10 @@ button {
 .about__card-img img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
   margin: 0;
 }
 .about__card-img--placeholder {
@@ -2920,6 +2934,7 @@ button {
   left: 0;
   width: 100vw;
   height: 100vh;
+  height: 100dvh;
   z-index: 9999;
   background: rgba(0, 0, 0, 0.92);
   display: flex;
@@ -4603,7 +4618,7 @@ footer,
   flex-direction: column;
   align-items: center;
   min-height: calc(85vh + 200px);
-  padding: clamp(80px, 10vw, 120px) 0 0;
+  padding: clamp(80px, 10vw, 120px) 0 env(safe-area-inset-bottom);
   background: transparent;
   overflow: hidden;
 }
