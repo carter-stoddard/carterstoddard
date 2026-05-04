@@ -225,8 +225,9 @@ html {
   overscroll-behavior: none;
   background-color: #000000;
   touch-action: pan-x pan-y;
-  min-height: 100vh;
-  min-height: 100dvh;
+  /* --app-height is set by inline JS in <head> to window.innerHeight in px,
+     bypassing Safari's unreliable viewport calc. 100dvh is the fallback. */
+  height: var(--app-height, 100dvh);
 }
 
 body {
@@ -242,8 +243,8 @@ body {
   overflow-x: clip;
   overscroll-behavior: none;
   touch-action: pan-x pan-y;
-  min-height: 100vh;
-  min-height: 100dvh;
+  /* Match true visible screen height — see html rule above. */
+  height: var(--app-height, 100dvh);
   /* No safe-area padding — let backgrounds (hero, sections) bleed edge-to-edge.
      Safe-area handling moved to specific elements (nav) that need it. */
 }

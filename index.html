@@ -15,6 +15,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#000000" />
 
+  <!-- iOS Safari true-visible-height fix.
+       Sets --app-height = window.innerHeight in pixels, kept fresh on
+       resize / orientationchange / pageshow. Inlined in <head> so the
+       value is available before first paint (no flash of mis-sized layout). -->
+  <script>
+    (function () {
+      var setAppHeight = function () {
+        document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
+      };
+      setAppHeight();
+      window.addEventListener('resize', setAppHeight, { passive: true });
+      window.addEventListener('orientationchange', setAppHeight, { passive: true });
+      window.addEventListener('pageshow', setAppHeight, { passive: true });
+    })();
+  </script>
+
   <!-- Favicons -->
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicons/favicon-32x32.png" />
