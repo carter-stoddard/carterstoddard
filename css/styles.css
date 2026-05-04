@@ -225,6 +225,8 @@ html {
   overscroll-behavior: none;
   background-color: #000000;
   touch-action: pan-x pan-y;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 body {
@@ -233,11 +235,15 @@ body {
   font-family: var(--font-body);
   font-weight: 400;
   line-height: 1.6;
+  /* overflow-x: clip prevents iOS Safari from treating body as a scroll
+     container (which breaks safe-area + dynamic URL-bar handling).
+     hidden is the fallback for browsers that don't support clip. */
   overflow-x: hidden;
+  overflow-x: clip;
   overscroll-behavior: none;
   touch-action: pan-x pan-y;
-  min-height: 100%;
-  min-height: -webkit-fill-available;
+  min-height: 100vh;
+  min-height: 100dvh;
   /* No safe-area padding — let backgrounds (hero, sections) bleed edge-to-edge.
      Safe-area handling moved to specific elements (nav) that need it. */
 }
