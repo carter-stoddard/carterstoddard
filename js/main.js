@@ -128,17 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Premium UX Enhancements ──
 
-    // 1. Scroll progress bar
-    const progressBar = document.getElementById('scroll-progress');
-    if (progressBar) {
-      window.addEventListener('scroll', function() {
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        progressBar.style.width = progress + '%';
-      }, { passive: true });
-    }
-
     // 2. Cursor glow on partnership patches + stats cells
     function initCursorGlow(selector) {
       document.querySelectorAll(selector).forEach(function(el) {
