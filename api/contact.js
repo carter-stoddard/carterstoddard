@@ -5,6 +5,39 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = 'Carter Stoddard <forms@carterstoddard.com>';
 const TO = 'carter@carterstoddard.com';
 
+// ── Validation limits ──
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX = {
+  first_name: 100,
+  last_name: 100,
+  email: 254,
+  company: 200,
+  role: 100,
+  services: 300,
+  message: 5000,
+};
+
+// ── Rate limiting (in-memory, per warm instance) ──
+// Best-effort throttle that caps abuse from a single IP. Memory isn't shared
+// across serverless instances, so it's a speed bump, not a vault — the
+// honeypot, timing gate, and field validation below are the deterministic guards.
+const RATE_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const RATE_MAX = 5;                    // max submissions per IP per window
+const hits = new Map();                // ip -> number[] (timestamps)
+
+function rateLimited(ip, now) {
+  const recent = (hits.get(ip) || []).filter((t) => now - t < RATE_WINDOW_MS);
+  recent.push(now);
+  hits.set(ip, recent);
+  // Opportunistic cleanup so the map can't grow unbounded on a long-lived instance.
+  if (hits.size > 5000) {
+    for (const [k, v] of hits) {
+      if (v.every((t) => now - t >= RATE_WINDOW_MS)) hits.delete(k);
+    }
+  }
+  return recent.length > RATE_MAX;
+}
+
 function escapeHtml(s) {
   return String(s || '')
     .replace(/&/g, '&amp;')
@@ -29,10 +62,43 @@ export default async function handler(req, res) {
       services,
       message,
       consent,
+      website,    // honeypot — must be empty
+      form_time,  // ms the form was on screen before submit
     } = req.body || {};
 
+    // ── 1. Honeypot — real users never fill the hidden "website" field ──
+    // Return a fake success so bots don't learn they were caught.
+    if (website) {
+      return res.status(200).json({ ok: true });
+    }
+
+    // ── 2. Timing gate — humans take more than 3s to fill out the form ──
+    if (typeof form_time === 'number' && form_time < 3000) {
+      return res.status(200).json({ ok: true });
+    }
+
+    // ── 3. Rate limit per IP ──
+    const ip = (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+    if (rateLimited(ip, Date.now())) {
+      return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    }
+
+    // ── 4. Required fields present ──
     if (!first_name || !last_name || !email || !company || !role || !services || !consent) {
       return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // ── 5. Email format ──
+    if (typeof email !== 'string' || !EMAIL_RE.test(email)) {
+      return res.status(400).json({ error: 'Invalid email address' });
+    }
+
+    // ── 6. Length caps — reject oversized payloads ──
+    for (const [field, limit] of Object.entries(MAX)) {
+      const val = req.body[field];
+      if (typeof val === 'string' && val.length > limit) {
+        return res.status(400).json({ error: 'Field too long' });
+      }
     }
 
     const fullName = `${first_name} ${last_name}`;

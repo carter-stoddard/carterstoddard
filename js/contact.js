@@ -125,6 +125,8 @@
         .join(', '),
       message: document.getElementById('contact-message').value.trim(),
       consent: document.getElementById('contact-consent').checked,
+      website: honeypot ? honeypot.value : '',   // honeypot — server re-checks
+      form_time: Date.now() - formLoadTime,       // timing — server re-checks
     };
 
     // Loading state
